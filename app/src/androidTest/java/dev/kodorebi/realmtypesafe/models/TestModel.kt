@@ -7,7 +7,7 @@ import io.realm.annotations.RealmClass
 import java.util.*
 
 @RealmClass
-class TestModel : RealmModel {
+open class TestModel : RealmModel {
     @PrimaryKey
     var id: Long = 0
 
@@ -36,7 +36,7 @@ class TestModel : RealmModel {
     var int : Int = 0
     var oInt : Int? = null
 
-    val list : RealmList<TestModel> = RealmList()
+    var list : RealmList<TestModel> = RealmList()
 
     var long : Long = 0
     var oLong : Long? = null

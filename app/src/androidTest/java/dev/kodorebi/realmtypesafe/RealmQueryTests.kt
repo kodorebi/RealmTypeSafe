@@ -26,7 +26,6 @@ import java.util.*
 @RunWith(AndroidJUnit4::class)
 class RealmQueryTests {
 
-
     companion object {
         private lateinit var realm: Realm
 
