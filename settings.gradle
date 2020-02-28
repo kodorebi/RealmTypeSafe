@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='RealmTypeSafeQuery'
+rootProject.name='RealmTypeSafe'
