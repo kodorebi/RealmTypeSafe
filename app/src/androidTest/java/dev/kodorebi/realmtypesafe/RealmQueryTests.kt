@@ -1,8 +1,8 @@
 package dev.kodorebi.realmtypesafe
 
 import android.util.Log
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import dev.kodorebi.realmtypesafe.models.Car
 import dev.kodorebi.realmtypesafe.models.Person
 import dev.kodorebi.realmtypesafe.query.*
@@ -10,12 +10,10 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmResults
 import io.realm.kotlin.where
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
 import org.junit.Assert.*
 import org.junit.BeforeClass
+import org.junit.Test
+import org.junit.runner.RunWith
 import java.util.*
 
 /**
