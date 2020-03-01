@@ -1,6 +1,8 @@
 # RealmTypeSafe
 A collection of Kotlin extensions on `RealmQuery` and `RealmResults` that enable type safe variants of the available operations.
 
+### Warning: this project is not yet in a production-ready state.
+
 ## Examples
 
 We'll use the traditional models that [Realm Docs](https://realm.io/docs/kotlin/latest/#queries) use:
