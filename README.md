@@ -77,7 +77,8 @@ The difference is that`edot` can be used to chain to a property of an **e**lemen
 
 As you can see in the above example `Person::dogs` is of type `RealmList<Dog>`. The `dot` function will only allow chaining properties of this type, which are most probably useless in the context of a Realm query.
 What we need in fact is chain a property of `Dog` class which is an element of the list (or collection).
-The rule of thumb is:
+
+When to use one or another? The rule of thumb is:
  - use `dot` if you need to chain to a property of a `RealmModel`
  - use `edot` if you need to chain to a property of an element in a `RealmList<E>`
 
