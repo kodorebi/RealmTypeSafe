@@ -3,6 +3,8 @@ A collection of Kotlin extensions on `RealmQuery` and `RealmResults` that enable
 
 ### Warning: this project is not yet in a production-ready state.
 
+[![](https://jitpack.io/v/kodorebi/RealmTypeSafe.svg)](https://jitpack.io/#kodorebi/RealmTypeSafe)
+
 ## Examples
 
 We'll use the traditional models that [Realm Docs](https://realm.io/docs/kotlin/latest/#queries) use:
