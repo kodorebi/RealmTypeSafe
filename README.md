@@ -56,19 +56,30 @@ val result = realm.where<Person>()
 The same type safe query:
 ```kotlin
 val result = realm.where<Person>()
-    .equalTo(Person::dogs.dot(Dog::name), "Fluffy")
-    .equalTo(Person::dogs.dot(Dog::color), "Brown")
+    .equalTo(Person::dogs.edot(Dog::name), "Fluffy")
+    .equalTo(Person::dogs.edot(Dog::color), "Brown")
     .findAll()
 ```
 
-As you can see the dot function is used to chain the properties.
+As you can see the `edot` function is used to chain the properties.
 If you preffer, you can use its infix notation:
 ```kotlin
 val result = realm.where<Person>()
-    .equalTo(Person::dogs dot Dog::name, "Fluffy")
-    .equalTo(Person::dogs dot Dog::color, "Brown")
+    .equalTo(Person::dogs edot Dog::name, "Fluffy")
+    .equalTo(Person::dogs edot Dog::color, "Brown")
     .findAll()
 ```
+
+## `dot` and `edot` functions
+These two functions can be used to chain object properties.
+
+The difference is that`edot` can be used to chain to a property of an **e**lement of a collection.
+
+As you can see in the above example `Person::dogs` is of type `RealmList<Dog>`. The `dot` function will only allow chaining properties of this type, which are most probably useless in the context of a Realm query.
+What we need in fact is chain a property of `Dog` class which is an element of the list (or collection).
+The rule of thumb is:
+ - use `dot` if you need to chain to a property of a `RealmModel`
+ - use `edot` if you need to chain to a property of an element in a `RealmList<E>`
 
 ## The pros
 As you may have guessed, the number one advantage of using RealmTypeSafe is **type safety**.
