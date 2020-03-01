@@ -275,6 +275,24 @@ class RealmQueryTests {
         assertSameResults(m1, m2) { it.id }
     }
 
+    @Test
+    fun equalToDotListString() {
+        val term = "Dacia"
+
+        val warmUp = realm.where<Person>().equalTo("cars.brand", term).findAll()
+        assertNotNull(warmUp)
+
+        val m2 = Benchmark.measure("Safe List String equalTo") {
+            realm.where<Person>().equalTo(Person::cars edot Car::brand, term).findAll()
+        }
+
+        val m1 = Benchmark.measure("Text List String equalTo") {
+            realm.where<Person>().equalTo("cars.brand", term).findAll()
+        }
+
+        assertSameResults(m1, m2) { it.id }
+    }
+
     //TODO: define tests for other equalTo overloads
 
 
@@ -413,6 +431,8 @@ class RealmQueryTests {
         }
 
         assertSameResults(m1, m2) { it.id }
+
+        Person::cars edot Car::brand
     }
 
 
