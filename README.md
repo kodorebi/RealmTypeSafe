@@ -106,10 +106,5 @@ Unfortunately, we have to use the type name before each property in the chain.
 
 We hope that this will be solved in a future version of Kotlin where something more succint as [Swift `KeyPath`s](https://developer.apple.com/documentation/swift/keypath) will be available.
 
-## Tasks list:
-- [x] implement type safe variants of operations on `RealmQuery`
-- [x] implement type safe variants of operations on `RealmResults`
-- [ ] Write tests for operations on `RealmQuery`
-- [ ] Write tests for operations on `RealmResults`
-- [ ] Add benchmarks to prove the overhead is negligible
-- [ ] Add licence information
+## Licence
+This project is licensed under the [MIT License](https://github.com/kodorebi/RealmTypeSafe/blob/master/LICENSE)
