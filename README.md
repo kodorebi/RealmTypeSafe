@@ -106,5 +106,5 @@ Unfortunately, we have to use the type name before each property in the chain.
 
 We hope that this will be solved in a future version of Kotlin where something more succint as [Swift `KeyPath`s](https://developer.apple.com/documentation/swift/keypath) will be available.
 
-## Licence
+## License
 This project is licensed under the [MIT License](https://github.com/kodorebi/RealmTypeSafe/blob/master/LICENSE)
