@@ -3,8 +3,7 @@ package dev.kodorebi.realmtypesafe
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import dev.kodorebi.realmtypesafe.models.Car
-import dev.kodorebi.realmtypesafe.models.Person
+import dev.kodorebi.realmtypesafe.models.TestModel
 import dev.kodorebi.realmtypesafe.query.*
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -52,21 +51,21 @@ class RealmQueryTests {
             Benchmark.measure("Text 1 property") { "id" }
         val m21 =
             Benchmark.measure("Safe 1 property") {
-                KProperties(Car::id).path
+                KProperties(TestModel::id).path
             }
 
         val m12 =
-            Benchmark.measure("Text 2 properties") { "owner.firstName" }
+            Benchmark.measure("Text 2 properties") { "obj.pString" }
         val m22 =
             Benchmark.measure("Safe 2 properties") {
-                Car::owner.dot(Person::firstName).path
+                TestModel::obj.dot(TestModel::pString).path
             }
 
         val m13 =
-            Benchmark.measure("Text 3 properties") { "owner.firstName.length" }
+            Benchmark.measure("Text 3 properties") { "obj.pString.length" }
         val m23 =
             Benchmark.measure("Safe 3 properties") {
-                (Car::owner dot Person::firstName dot String::length).path
+                (TestModel::obj dot TestModel::pString dot String::length).path
             }
 
         assertEquals(m11, m21)
@@ -76,16 +75,16 @@ class RealmQueryTests {
 
     @Test
     fun average() {
-        val warmUp = realm.where<Car>().average("price")
+        val warmUp = realm.where<TestModel>().average("pDouble")
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe average") {
-                realm.where<Car>().average(Car::price)
+                realm.where<TestModel>().average(TestModel::pDouble)
             }
         val m1 =
             Benchmark.measure("Text average") {
-                realm.where<Car>().average("price")
+                realm.where<TestModel>().average("pDouble")
             }
 
         assertEquals("Different values", m1, m2, 0.0)
@@ -93,17 +92,17 @@ class RealmQueryTests {
 
     @Test
     fun beginsWith() {
-        val term = "D"
-        val warmUp = realm.where<Car>().beginsWith("brand", term).findAll()
+        val term = "p"
+        val warmUp = realm.where<TestModel>().beginsWith("pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe beginsWith") {
-                realm.where<Car>().beginsWith(Car::brand, term).findAll()
+                realm.where<TestModel>().beginsWith(TestModel::pString, term).findAll()
             }
         val m1 =
             Benchmark.measure("Text beginsWith") {
-                realm.where<Car>().beginsWith("brand", term).findAll()
+                realm.where<TestModel>().beginsWith("pString", term).findAll()
             }
 
 
@@ -112,18 +111,18 @@ class RealmQueryTests {
 
     @Test
     fun beginsWithDot() {
-        val term = "And"
+        val term = "p"
 
-        val warmUp = realm.where<Car>().beginsWith("owner.firstName", term).findAll()
+        val warmUp = realm.where<TestModel>().beginsWith("obj.pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe dot beginsWith") {
-                realm.where<Car>().beginsWith(Car::owner.dot(Person::firstName), term).findAll()
+                realm.where<TestModel>().beginsWith(TestModel::obj.dot(TestModel::pString), term).findAll()
             }
         val m1 =
             Benchmark.measure("Text dot beginsWith") {
-                realm.where<Car>().beginsWith("owner.firstName", term).findAll()
+                realm.where<TestModel>().beginsWith("obj.pString", term).findAll()
             }
 
         assertSameResults(m1, m2) { it.id }
@@ -131,17 +130,17 @@ class RealmQueryTests {
 
     @Test
     fun contains() {
-        val term = "ac"
-        val warmUp = realm.where<Car>().contains("brand", term).findAll()
+        val term = "si"
+        val warmUp = realm.where<TestModel>().contains("pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe contains") {
-                realm.where<Car>().contains(Car::brand, term).findAll()
+                realm.where<TestModel>().contains(TestModel::pString, term).findAll()
             }
         val m1 =
             Benchmark.measure("Text contains") {
-                realm.where<Car>().contains("brand", term).findAll()
+                realm.where<TestModel>().contains("pString", term).findAll()
             }
 
 
@@ -150,25 +149,25 @@ class RealmQueryTests {
 
     @Test
     fun containsDot() {
-        val term = "dr"
+        val term = "a"
 
-        val warmUp = realm.where<Car>()
-            .contains("owner.firstName", term)
+        val warmUp = realm.where<TestModel>()
+            .contains("obj.pString", term)
             .findAll()
 
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe dot contains") {
-                realm.where<Car>()
-                    .contains(Car::owner.dot(Person::firstName), term)
+                realm.where<TestModel>()
+                    .contains(TestModel::obj.dot(TestModel::pString), term)
                     .findAll()
             }
 
         val m1 =
             Benchmark.measure("Text dot contains") {
-                realm.where<Car>()
-                    .contains("owner.firstName", term)
+                realm.where<TestModel>()
+                    .contains("obj.pString", term)
                     .findAll()
             }
 
@@ -177,23 +176,23 @@ class RealmQueryTests {
 
     @Test
     fun distinct() {
-        val warmUp = realm.where<Car>()
-            .distinct("brand")
+        val warmUp = realm.where<TestModel>()
+            .distinct("pString")
             .findAll()
 
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe distinct") {
-                realm.where<Car>()
-                    .distinct(Car::brand)
+                realm.where<TestModel>()
+                    .distinct(TestModel::pString)
                     .findAll()
             }
 
         val m1 =
             Benchmark.measure("Text distinct") {
-                realm.where<Car>()
-                    .distinct("brand")
+                realm.where<TestModel>()
+                    .distinct("pString")
                     .findAll()
             }
 
@@ -202,17 +201,17 @@ class RealmQueryTests {
 
     @Test
     fun endsWith() {
-        val term = "ia"
-        val warmUp = realm.where<Car>().endsWith("brand", term).findAll()
+        val term = "on"
+        val warmUp = realm.where<TestModel>().endsWith("pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe beginsWith") {
-                realm.where<Car>().endsWith(Car::brand, term).findAll()
+                realm.where<TestModel>().endsWith(TestModel::pString, term).findAll()
             }
         val m1 =
             Benchmark.measure("Text beginsWith") {
-                realm.where<Car>().endsWith("brand", term).findAll()
+                realm.where<TestModel>().endsWith("pString", term).findAll()
             }
 
         assertSameResults(m1, m2) { it.id }
@@ -222,16 +221,16 @@ class RealmQueryTests {
     fun endsWithDot() {
         val term = "rew"
 
-        val warmUp = realm.where<Car>().endsWith("owner.firstName", term).findAll()
+        val warmUp = realm.where<TestModel>().endsWith("obj.pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 =
             Benchmark.measure("Safe dot beginsWith") {
-                realm.where<Car>().endsWith(Car::owner.dot(Person::firstName), term).findAll()
+                realm.where<TestModel>().endsWith(TestModel::obj.dot(TestModel::pString), term).findAll()
             }
         val m1 =
             Benchmark.measure("Text dot beginsWith") {
-                realm.where<Car>().endsWith("owner.firstName", term).findAll()
+                realm.where<TestModel>().endsWith("obj.pString", term).findAll()
             }
 
         assertSameResults(m1, m2) { it.id }
@@ -241,15 +240,15 @@ class RealmQueryTests {
     fun equalToString() {
         val term = "Dacia"
 
-        val warmUp = realm.where<Car>().equalTo("brand", term).findAll()
+        val warmUp = realm.where<TestModel>().equalTo("pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe String equalTo") {
-            realm.where<Car>().equalTo(Car::brand, term).findAll()
+            realm.where<TestModel>().equalTo(TestModel::pString, term).findAll()
         }
 
         val m1 = Benchmark.measure("Text String equalTo") {
-            realm.where<Car>().equalTo("brand", term).findAll()
+            realm.where<TestModel>().equalTo("pString", term).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -259,15 +258,15 @@ class RealmQueryTests {
     fun equalToDotString() {
         val term = "Dacia"
 
-        val warmUp = realm.where<Car>().equalTo("owner.firstName", term).findAll()
+        val warmUp = realm.where<TestModel>().equalTo("obj.pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe String equalTo") {
-            realm.where<Car>().equalTo(Car::owner.dot(Person::firstName), term).findAll()
+            realm.where<TestModel>().equalTo(TestModel::obj.dot(TestModel::pString), term).findAll()
         }
 
         val m1 = Benchmark.measure("Text String equalTo") {
-            realm.where<Car>().equalTo("owner.firstName", term).findAll()
+            realm.where<TestModel>().equalTo("obj.pString", term).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -275,17 +274,17 @@ class RealmQueryTests {
 
     @Test
     fun equalToDotListString() {
-        val term = "Dacia"
+        val term = "omega 3"
 
-        val warmUp = realm.where<Person>().equalTo("cars.brand", term).findAll()
+        val warmUp = realm.where<TestModel>().equalTo("list.pString", term).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe List String equalTo") {
-            realm.where<Person>().equalTo(Person::cars edot Car::brand, term).findAll()
+            realm.where<TestModel>().equalTo(TestModel::list edot TestModel::pString, term).findAll()
         }
 
         val m1 = Benchmark.measure("Text List String equalTo") {
-            realm.where<Person>().equalTo("cars.brand", term).findAll()
+            realm.where<TestModel>().equalTo("list.pString", term).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -296,15 +295,15 @@ class RealmQueryTests {
 
     @Test
     fun greaterThan() {
-        val warmUp = realm.where<Car>().greaterThan("price", 2000.0).findAll()
+        val warmUp = realm.where<TestModel>().greaterThan("pDouble", 2000.0).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe greaterThan") {
-            realm.where<Car>().greaterThan(Car::price, 2000.0).findAll()
+            realm.where<TestModel>().greaterThan(TestModel::pDouble, 2000.0).findAll()
         }
 
         val m1 = Benchmark.measure("Text greaterThan") {
-            realm.where<Car>().greaterThan("price", 2000.0).findAll()
+            realm.where<TestModel>().greaterThan("pDouble", 2000.0).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -312,15 +311,15 @@ class RealmQueryTests {
 
     @Test
     fun greaterThanDot() {
-        val warmUp = realm.where<Car>().greaterThan("owner.age", 20).findAll()
+        val warmUp = realm.where<TestModel>().greaterThan("obj.pInt", 20).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe greaterThan") {
-            realm.where<Car>().greaterThan(Car::owner.dot(Person::age), 20).findAll()
+            realm.where<TestModel>().greaterThan(TestModel::obj.dot(TestModel::pInt), 20).findAll()
         }
 
         val m1 = Benchmark.measure("Text greaterThan") {
-            realm.where<Car>().greaterThan("owner.age", 20).findAll()
+            realm.where<TestModel>().greaterThan("obj.pInt", 20).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -330,15 +329,15 @@ class RealmQueryTests {
     fun greaterThanDate() {
         val date = Date()
 
-        val warmUp = realm.where<Car>().greaterThan("buyDate", date).findAll()
+        val warmUp = realm.where<TestModel>().greaterThan("pDate", date).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe Date greaterThan") {
-            realm.where<Car>().greaterThan(Car::buyDate, date).findAll()
+            realm.where<TestModel>().greaterThan(TestModel::pDate, date).findAll()
         }
 
         val m1 = Benchmark.measure("Text Date greaterThan") {
-            realm.where<Car>().greaterThan("buyDate", date).findAll()
+            realm.where<TestModel>().greaterThan("pDate", date).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -348,15 +347,15 @@ class RealmQueryTests {
     fun greaterThanDotDate() {
         val date = Date()
 
-        val warmUp = realm.where<Car>().greaterThan("owner.addedOn", date).findAll()
+        val warmUp = realm.where<TestModel>().greaterThan("obj.pDate", date).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe dot Date greaterThan") {
-            realm.where<Car>().greaterThan(Car::owner.dot(Person::addedOn), date).findAll()
+            realm.where<TestModel>().greaterThan(TestModel::obj.dot(TestModel::pDate), date).findAll()
         }
 
         val m1 = Benchmark.measure("Text dot Date greaterThan") {
-            realm.where<Car>().greaterThan("owner.addedOn", date).findAll()
+            realm.where<TestModel>().greaterThan("obj.pDate", date).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -365,15 +364,15 @@ class RealmQueryTests {
 
     @Test
     fun greaterThanOrEqualTo() {
-        val warmUp = realm.where<Car>().greaterThanOrEqualTo("price", 2000.0).findAll()
+        val warmUp = realm.where<TestModel>().greaterThanOrEqualTo("pDouble", 2000.0).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo(Car::price, 2000.0).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo(TestModel::pDouble, 2000.0).findAll()
         }
 
         val m1 = Benchmark.measure("Text greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo("price", 2000.0).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo("pDouble", 2000.0).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -381,15 +380,15 @@ class RealmQueryTests {
 
     @Test
     fun greaterThanOrEqualToDot() {
-        val warmUp = realm.where<Car>().greaterThanOrEqualTo("owner.age", 20).findAll()
+        val warmUp = realm.where<TestModel>().greaterThanOrEqualTo("obj.pInt", 20).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe dot greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo(Car::owner.dot(Person::age), 20).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo(TestModel::obj.dot(TestModel::pInt), 20).findAll()
         }
 
         val m1 = Benchmark.measure("Text dot greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo("owner.age", 20).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo("obj.pInt", 20).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -399,15 +398,15 @@ class RealmQueryTests {
     fun greaterThanOrEqualToDate() {
         val date = Date()
 
-        val warmUp = realm.where<Car>().greaterThanOrEqualTo("buyDate", date).findAll()
+        val warmUp = realm.where<TestModel>().greaterThanOrEqualTo("pDate", date).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe Date greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo(Car::buyDate, date).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo(TestModel::pDate, date).findAll()
         }
 
         val m1 = Benchmark.measure("Text Date greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo("buyDate", date).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo("pDate", date).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
@@ -417,20 +416,18 @@ class RealmQueryTests {
     fun greaterThanOrEqualToDotDate() {
         val date = Date()
 
-        val warmUp = realm.where<Car>().greaterThanOrEqualTo("owner.addedOn", date).findAll()
+        val warmUp = realm.where<TestModel>().greaterThanOrEqualTo("obj.pDate", date).findAll()
         assertNotNull(warmUp)
 
         val m2 = Benchmark.measure("Safe dot Date greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo(Car::owner.dot(Person::addedOn), date).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo(TestModel::obj.dot(TestModel::pDate), date).findAll()
         }
 
         val m1 = Benchmark.measure("Text dot Date greaterThanOrEqualTo") {
-            realm.where<Car>().greaterThanOrEqualTo("owner.addedOn", date).findAll()
+            realm.where<TestModel>().greaterThanOrEqualTo("obj.pDate", date).findAll()
         }
 
         assertSameResults(m1, m2) { it.id }
-
-        Person::cars edot Car::brand
     }
 
 

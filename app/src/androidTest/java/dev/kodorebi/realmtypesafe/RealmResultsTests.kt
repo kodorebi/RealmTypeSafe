@@ -3,7 +3,6 @@ package dev.kodorebi.realmtypesafe
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import dev.kodorebi.realmtypesafe.models.Car
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.kotlin.where
@@ -37,6 +36,6 @@ class RealmResultsTests {
 
     @Test
     fun max() {
-        var results = realm.where<Car>().findAll()
+
     }
 }

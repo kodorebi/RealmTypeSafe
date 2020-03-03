@@ -11,39 +11,39 @@ open class TestModel : RealmModel {
     @PrimaryKey
     var id: Long = 0
 
-    var string : String = ""
+    var pString : String = ""
     var oString : String? = null
 
-    var boolean: Boolean = true
+    var pBoolean: Boolean = true
     var oBoolean: Boolean? = null
 
-    var blob: ByteArray = ByteArray(0)
+    var pBlob: ByteArray = ByteArray(0)
     var oBlob: ByteArray? = null
 
-    var byte: Byte = 0
+    var pByte: Byte = 0
     var oByte: Byte? = null
 
 
-    var date : Date = Date()
+    var pDate : Date = Date()
     var oDate : Date? = null
 
-    var double : Double = 0.0
+    var pDouble : Double = 0.0
     var oDouble : Double? = null
 
-    var float : Float = 0.0f
+    var pFloat : Float = 0.0f
     var oFloat : Float? = null
 
-    var int : Int = 0
+    var pInt : Int = 0
     var oInt : Int? = null
 
     var list : RealmList<TestModel> = RealmList()
 
-    var long : Long = 0
+    var pLong : Long = 0
     var oLong : Long? = null
 
     var obj : TestModel? = null
 
-    var short : Short = 0
+    var pShort : Short = 0
     var oShort : Short? = null
 
 
